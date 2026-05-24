@@ -2,6 +2,8 @@ import { AnimatePresence, motion } from "motion/react";
 
 import { useNavigation } from "@/hooks/useNavigation";
 import { HomeOverlay } from "@/components/overlays/HomeOverlay/HomeOverlay";
+import { ProjectsOverlay } from "@/components/overlays/ProjectsOverlay/ProjectsOverlay";
+import { CertificatesOverlay } from "@/components/overlays/CertificatesOverlay/CertificatesOverlay";
 import { easeOut } from "@/lib/motion/presets";
 import type { Section } from "@/types/navigation";
 
@@ -28,11 +30,11 @@ function SectionContent({ section }: { section: Section }) {
 		case "home":
 			return <HomeOverlay />;
 		case "projects":
-			return <PlaceholderOverlay title="Projects" />;
+			return <ProjectsOverlay />;
 		case "about":
 			return <PlaceholderOverlay title="About" />;
 		case "certificates":
-			return <PlaceholderOverlay title="Certificates" />;
+			return <CertificatesOverlay />;
 	}
 }
 

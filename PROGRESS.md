@@ -1,7 +1,7 @@
 # Portfolio v2 — Progress & Architecture
 
 > **Living document.** Update this file whenever scope, priorities, or implementation strategy changes.  
-> Last audited: **2026-05-24** (Phase 1 landing implemented)
+> Last audited: **2026-05-24** (Projects API + scroll scenes live)
 
 ---
 
@@ -14,10 +14,10 @@
 | GSAP | ⬜ Not installed |
 | Immersive app shell | ✅ Done (`AppShell`, layers, background) |
 | Home landing overlay | ✅ Done (hero, cards, motion) |
-| API layer | ⬜ Not started |
-| Design tokens (cinematic / glass) | 🟡 In progress (`GlassPanel`, vignette, display utilities) |
+| API layer | ✅ Projects + Certificates |
+| Design tokens (cinematic / glass) | 🟡 Syne display + Inter body; glass utilities |
 
-**Current focus:** Phase 5 Projects overlay → display font polish
+**Current focus:** Phase 7 About overlay → Phase 8 project detail modal
 
 ---
 
@@ -47,7 +47,8 @@ Remake the portfolio as **one persistent immersive application** — not a tradi
 | Motion (primary) | `motion` v12 (`import { motion } from "motion/react"`) | Layout, overlays, hover, shared layout |
 | Motion (secondary) | GSAP + ScrollTrigger | Phase 9 — pinned sections, timelines |
 | Icons | lucide-react | Already available |
-| Data | REST fetch | Base URL via `VITE_API_BASE_URL` |
+| Data | REST fetch | [Portfolio API](https://gilang-alfarizi-portfolio-be.vercel.app/docs) — `VITE_API_BASE_URL` |
+| Typography | Syne (display) + Inter (body) | `@fontsource-variable/syne` + Inter |
 
 ---
 
@@ -147,8 +148,9 @@ src/
 
 **Tasks**
 
-- [ ] Add `--font-display` and map in `@theme inline`
-- [ ] Define type scale: `text-display`, `text-headline`, `text-body`, `text-caption`
+- [x] `--font-display` / `--font-heading` → Syne Variable
+- [x] Body remains Inter Variable
+- [ ] Define type scale utilities: `text-display`, `text-headline` (optional Tailwind aliases)
 - [ ] Set max line-width for centered overlays (`max-w-prose` / custom)
 
 ### Color & surfaces
@@ -187,41 +189,93 @@ Define in `src/lib/motion/presets.ts` and reference from Framer Motion `transiti
 
 ---
 
-## API contracts (expected)
+## API contracts (live backend)
 
-> Confirm base URL and paths against the real backend before Phase 5–6.
+**Base URL:** `https://gilang-alfarizi-portfolio-be.vercel.app`  
+**Swagger UI:** [gilang-alfarizi-portfolio-be.vercel.app/docs](https://gilang-alfarizi-portfolio-be.vercel.app/docs)  
+**OpenAPI JSON:** `GET /docs-json`
 
 ### Environment
 
 ```env
-VITE_API_BASE_URL=https://api.example.com
+VITE_API_BASE_URL=https://gilang-alfarizi-portfolio-be.vercel.app
 ```
 
-### Projects
+Default fallback is set in `src/lib/api/client.ts` if env is omitted.
 
-- **GET** `/projects` (or equivalent)
-- **Response item:** `{ id, title, description, thumbnailUrl, ... }`
-- **Client:** `fetchProjects()` → typed array, loading + error states
+### Projects ✅
 
-### Certificates
+| Method | Path | Notes |
+|--------|------|--------|
+| `GET` | `/project` | List — wrapped as `{ data: Project[] }` |
+| `GET` | `/project/{id}` | Detail + `images[]` (case study / modal — Phase 8) |
+| `POST` | `/project` | Admin |
+| `PATCH` | `/project/{id}` | Admin |
+| `DELETE` | `/project/{id}` | Admin |
 
-- **GET** `/certificates?page=1&pageSize=9`
-- **Response item:** `{ id, title, credentialUrl, validUntil, issuedBy }`
-- **Pagination:** `page`, `pageSize`, `totalPages` / `totalCount` (adapt to actual API)
-- **Future:** `sort`, `filter` query params — design `CertificatesQuery` type now
-
-### Shared client pattern
+**List item shape:**
 
 ```ts
-// src/lib/api/client.ts — fetch wrapper, JSON parse, error normalization
+{ id: number; title: string; description: string; coverImageUrl: string | null }
 ```
+
+**Client:** `fetchProjects()` in `src/lib/api/projects.ts` · `useProjects()` hook
+
+### Certificates ✅
+
+| Method | Path | Query | Notes |
+|--------|------|-------|--------|
+| `GET` | `/certificate` | `page`, `pageSize` (default 9) | Paginated list |
+
+**Response shape:**
+
+```ts
+{
+  data: {
+    data: Certificate[];
+    page: number;
+    pageSize: number;
+    total: number;
+    totalPages: number;
+  }
+}
+```
+
+**Item fields:** `id`, `title`, `issuer`, `issuedAt`, `image`, `credential` (nullable), `createdAt`, `updatedAt`
+
+**Client:** `fetchCertificates()` · `useCertificates(page)` hook
+
+### Skills (optional / future)
+
+| Method | Path | Notes |
+|--------|------|--------|
+| `GET` | `/skill` | `{ data: { id, title, icon, type }[] }` — could replace static `tech-stack.ts` later |
+
+### Images
+
+| Method | Path | Notes |
+|--------|------|--------|
+| `GET` | `/project/{projectId}/image` | Gallery for project detail |
+| `GET` | `/image/{id}` | Single image |
+
+### Health
+
+| Method | Path |
+|--------|------|
+| `GET` | `/health` |
+
+### Shared client
+
+- `apiGet<T>(path)` in `src/lib/api/client.ts`
+- `ApiError` for failed responses
 
 **Tasks**
 
-- [ ] Add `.env.example` with `VITE_API_BASE_URL`
-- [ ] Implement `apiClient.get<T>(path, params?)`
-- [ ] Add types in `src/types/`
-- [ ] Optional: MSW mocks for local dev without backend
+- [x] `.env.example` with production API URL
+- [x] `apiGet` + project types + `fetchProjects`
+- [x] `fetchCertificates` + pagination (`page`, `pageSize=9`)
+- [ ] `fetchProjectById` for detail modal
+- [ ] Optional: MSW mocks for offline dev
 
 ---
 
@@ -380,7 +434,7 @@ interface NavigationContextValue {
 | Strength profile bar chart (animated) | ✅ |
 | Scroll hint on hero beat | ✅ |
 | CTA → `setActiveSection('projects')` | ✅ |
-| Display font upgrade (wide geometric sans) | ⬜ |
+| Display font — Syne Variable globally | ✅ |
 
 **UI / motion goals**
 
@@ -430,14 +484,15 @@ interface NavigationContextValue {
 
 | Task | Status |
 |------|--------|
-| Types + `fetchProjects()` | ⬜ |
-| Loading skeleton (glass cards) | ⬜ |
-| Error + empty states | ⬜ |
-| `ProjectsOverlay` — scene per project | ⬜ |
-| Display: thumbnail, title, description, “View project” CTA | ⬜ |
-| Scroll/wheel → `projectIndex` with transition lock | ⬜ |
-| Progress indicator (e.g. 01 / 05) | ⬜ |
-| Placeholder detail route/modal shell | ⬜ |
+| Types + `fetchProjects()` | ✅ |
+| Loading / error / empty states | ✅ |
+| `ProjectsOverlay` — one scene per project | ✅ |
+| Display: `coverImageUrl`, title, description, CTA | ✅ |
+| Scroll/wheel via `useScrollCapture` + `beatSlide` transitions | ✅ |
+| Index label `01 / 05` + dot indicator | ✅ |
+| Section header “Curated Work” / “Digital Constellations” | ✅ |
+| `useScrollCapture` shared with home beats | ✅ |
+| Project detail modal (`GET /project/{id}`) | ⬜ |
 
 **UI / motion goals**
 
@@ -463,13 +518,15 @@ interface NavigationContextValue {
 
 | Task | Status |
 |------|--------|
-| Types + `fetchCertificates({ page, pageSize: 9 })` | ⬜ |
-| `CertificatesOverlay` — CSS grid 3×3 | ⬜ |
-| `CertificateCard` — title, issuer, valid until, link | ⬜ |
-| Prev / next controls + page indicator | ⬜ |
-| Loading / error / empty states | ⬜ |
-| Page change animation hook (fade grid or stagger cards) | ⬜ |
-| Responsive: 1 col mobile, 2 col tablet, 3 col desktop | ⬜ |
+| Types + `fetchCertificates({ page, pageSize: 9 })` | ✅ |
+| `CertificatesOverlay` — responsive grid (1 / 2 / 3 cols) | ✅ |
+| `CertificateCard` — cert `image`, title, issuer, `issuedAt` | ✅ |
+| Scroll pagination via `useScrollCapture` (controlled `pageIndex`) | ✅ |
+| Page dots + “Scroll for next page” hint | ✅ |
+| Loading / error / empty states | ✅ |
+| Page transition `beatSlide` + staggered card entrance | ✅ |
+| `OverlaySectionHeader` shared with Projects | ✅ |
+| Credential ID display / verify link | ⬜ |
 
 **UI / motion goals**
 
@@ -600,6 +657,8 @@ interface CertificatesQuery {
 | 2026-05-24 | `motion` package (not legacy `framer-motion` import path) | Already in `package.json` v12 |
 | 2026-05-24 | Framer first, GSAP later | Avoid dual animation ownership during core build |
 | 2026-05-24 | Certificates page size = 9 (3×3) | Per product requirements |
+| 2026-05-24 | API base: `gilang-alfarizi-portfolio-be.vercel.app` | Deployed NestJS backend; paths `/project`, `/certificate` |
+| 2026-05-24 | `useScrollCapture` generic hook | Shared by home beats and project carousel |
 
 ---
 
@@ -610,6 +669,8 @@ interface CertificatesQuery {
 | 2026-05-24 | Initial `PROGRESS.md` created from requirements + repo audit |
 | 2026-05-24 | Phase 1 shell + Phase 2 nav + home landing (reference screenshot) |
 | 2026-05-24 | Responsive nav + home scroll beats + Capabilities & Arsenal |
+| 2026-05-24 | Live API wired; Projects overlay + Syne typography |
+| 2026-05-24 | Phase 6 Certificates — image grid, scroll pagination, API v2 fields |
 
 ---
 
