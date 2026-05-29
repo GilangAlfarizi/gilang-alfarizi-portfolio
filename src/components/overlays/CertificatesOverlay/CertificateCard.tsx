@@ -24,10 +24,10 @@ export function CertificateCard({ certificate, index }: CertificateCardProps) {
 			variants={fadeUp}
 			whileHover={{ y: -3, scale: 1.01 }}
 			transition={{ duration: 0.25 }}
-			className="group h-full"
-		>
-			<GlassPanel className="flex h-full min-h-[140px] flex-col overflow-hidden rounded-xl border-white/10 p-0 sm:min-h-[160px]">
-				<div className="relative aspect-[4/3] overflow-hidden bg-black/40">
+			className="group h-40 lg:h-full">
+			<GlassPanel className="flex h-40 lg:h-full flex-col overflow-hidden rounded-xl border-white/10 p-0">
+				<div className="relative aspect-16/7 overflow-hidden bg-black/40 sm:aspect-video">
+					{" "}
 					{certificate.image ? (
 						<img
 							src={certificate.image}
@@ -40,10 +40,11 @@ export function CertificateCard({ certificate, index }: CertificateCardProps) {
 							No image
 						</div>
 					)}
-					<div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+					<div className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/50 via-transparent to-transparent" />
 				</div>
 
-				<div className="flex flex-1 flex-col gap-0.5 p-2.5 sm:p-3">
+				<div className="flex flex-1 flex-col gap-0.5 p-2">
+					{" "}
 					<h3 className="line-clamp-2 text-[11px] leading-snug font-semibold text-white sm:text-xs">
 						{certificate.title}
 					</h3>

@@ -22,13 +22,11 @@ export function ProjectScene({ project, index, total }: ProjectSceneProps) {
 			className="mx-auto flex size-full max-w-6xl flex-col justify-center gap-5 px-4 pb-4 sm:px-6 lg:gap-6"
 			variants={staggerContainer}
 			initial="hidden"
-			animate="visible"
-		>
+			animate="visible">
 			<motion.div
 				variants={fadeUp}
-				className="grid overflow-hidden rounded-2xl border border-white/10 bg-black/20 shadow-[0_16px_48px_rgba(0,0,0,0.45)] backdrop-blur-sm lg:grid-cols-[1.05fr_0.95fr] lg:rounded-3xl"
-			>
-				<div className="relative aspect-[16/10] overflow-hidden bg-black/40 lg:aspect-auto lg:min-h-[340px]">
+				className="grid overflow-hidden rounded-2xl border border-white/10 bg-black/20 shadow-[0_16px_48px_rgba(0,0,0,0.45)] backdrop-blur-sm lg:grid-cols-[1.05fr_0.95fr] lg:rounded-3xl">
+				<div className="relative aspect-16/10 overflow-hidden bg-black/40 lg:aspect-auto lg:min-h-85">
 					{project.coverImageUrl ? (
 						<img
 							src={project.coverImageUrl}
@@ -41,7 +39,7 @@ export function ProjectScene({ project, index, total }: ProjectSceneProps) {
 							No preview
 						</div>
 					)}
-					<div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/30 to-transparent lg:bg-gradient-to-r lg:from-transparent lg:to-black/20" />
+					<div className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/30 to-transparent lg:bg-linear-to-r lg:from-transparent lg:to-black/20" />
 				</div>
 
 				<GlassPanel className="flex flex-col justify-center rounded-none border-0 border-t border-white/10 bg-black/30 p-5 sm:p-6 lg:border-t-0 lg:border-l lg:p-8">
@@ -60,11 +58,10 @@ export function ProjectScene({ project, index, total }: ProjectSceneProps) {
 					<div className="mt-6">
 						<MotionButton
 							variant="glass-outline"
-							className="inline-flex items-center gap-2 !px-5 !py-2.5 text-xs tracking-[0.14em] uppercase sm:text-sm"
+							className="inline-flex items-center gap-2 px-5! py-2.5! text-xs tracking-[0.14em] uppercase sm:text-sm"
 							onClick={() => {
 								// Detail modal / case study — Phase 8
-							}}
-						>
+							}}>
 							View Project
 							<ArrowRight className="size-4" strokeWidth={1.75} />
 						</MotionButton>

@@ -13,29 +13,14 @@ interface CertificateGridPageProps {
 	columns: number;
 }
 
-export function CertificateGridPage({
-	items,
-	page,
-	totalPages,
-	columns,
-}: CertificateGridPageProps) {
+export function CertificateGridPage({ items, page }: CertificateGridPageProps) {
 	return (
 		<motion.div
-			className="mx-auto w-full max-w-3xl px-3 sm:px-4"
+			className="mx-auto w-full max-w-70 px-2 sm:max-w-md sm:px-4 lg:max-w-3xl"
 			variants={staggerContainer}
 			initial="hidden"
-			animate="visible"
-		>
-			<p className="mb-2 text-center text-[9px] tracking-[0.18em] text-white/40 uppercase">
-				Page {page} / {totalPages}
-			</p>
-
-			<div
-				className="grid gap-2.5 sm:gap-3"
-				style={{
-					gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
-				}}
-			>
+			animate="visible">
+			<div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 sm:gap-3 lg:grid-cols-3">
 				{items.map((certificate, index) =>
 					certificate ? (
 						<CertificateCard

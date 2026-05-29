@@ -8,8 +8,8 @@ import { beatSlide } from "@/lib/motion/presets";
 import { CERTIFICATES_GRID_COLS } from "@/types/certificate";
 
 import { OverlaySectionHeader } from "../shared/OverlaySectionHeader";
-import { PageIndexIndicator } from "../shared/PageIndexIndicator";
 import { CertificateGridPage } from "./CertificateGridPage";
+import { CertificatePageIndicator } from "./CertificatePageIndicator";
 import {
 	CertificatesEmptyState,
 	CertificatesErrorState,
@@ -27,7 +27,10 @@ function buildPageSlots(
 		pageIndex * pageSize + pageSize,
 	);
 
-	return Array.from({ length: pageSize }, (_, index) => pageItems[index] ?? null);
+	return Array.from(
+		{ length: pageSize },
+		(_, index) => pageItems[index] ?? null,
+	);
 }
 
 export function CertificatesOverlay() {
@@ -68,8 +71,7 @@ export function CertificatesOverlay() {
 	return (
 		<div
 			ref={containerRef}
-			className="relative flex size-full touch-pan-y flex-col overflow-hidden"
-		>
+			className="relative flex size-full touch-pan-y flex-col overflow-hidden">
 			{loading && <CertificatesLoadingState />}
 
 			{!loading && error && (
@@ -80,12 +82,18 @@ export function CertificatesOverlay() {
 
 			{hasContent && (
 				<>
+					<CertificatePageIndicator
+						count={totalPages}
+						activeIndex={pageIndex}
+						onSelect={goToIndex}
+					/>
+
 					<OverlaySectionHeader
 						eyebrow="Verified Credentials"
 						title="Proof of Craft"
 					/>
 
-					<div className="relative min-h-0 flex-1">
+					<div className="relative min-h-0 flex-1 pr-10 sm:pr-12">
 						<AnimatePresence mode="wait" custom={direction}>
 							<motion.div
 								key={`${currentPage}-${pageSize}`}
@@ -94,8 +102,7 @@ export function CertificatesOverlay() {
 								initial="enter"
 								animate="center"
 								exit="exit"
-								className="absolute inset-0 flex items-center justify-center"
-							>
+								className="absolute inset-0 flex items-center justify-center">
 								<CertificateGridPage
 									items={pageSlots}
 									page={currentPage}
@@ -105,18 +112,6 @@ export function CertificatesOverlay() {
 							</motion.div>
 						</AnimatePresence>
 					</div>
-
-					<PageIndexIndicator
-						total={totalPages}
-						activeIndex={pageIndex}
-						onSelect={goToIndex}
-					/>
-
-					{totalPages > 1 && pageIndex < totalPages - 1 && (
-						<p className="pointer-events-none pb-1 text-center text-[10px] tracking-[0.2em] text-white/35 uppercase">
-							Scroll for next page
-						</p>
-					)}
 				</>
 			)}
 		</div>

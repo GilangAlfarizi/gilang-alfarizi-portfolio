@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 445.98 445.97">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: #fff;
+      }
+
+      .cls-3 {
+        fill: #158754;
+      }
+
+      .cls-2 {
+        font-family: Bahnschrift-Bold, Bahnschrift;
+        font-size: 230px;
+        font-variation-settings: 'wght' 700, 'wdth' 100;
+        letter-spacing: -.07em;
+      }
+    </style>
+  </defs>
+  <polygon class="cls-3" points="445.98 118.3 445.98 445.97 0 445.97 0 0 324.5 0 445.98 118.3"/>
+  <g>
+    <path class="cls-1" d="M195.44,127.28l-23.04-19.41,23.04-19.38,5.33,5.4-16.95,13.91,16.95,14.08-5.33,5.4Z"/>
+    <path class="cls-1" d="M212.72,133.85h-8.1l23.86-55.64h8.13l-23.89,55.64Z"/>
+    <path class="cls-1" d="M247.35,88.49l23.04,19.38-23.04,19.41-5.3-5.4,16.92-13.95-16.92-14.05,5.3-5.4Z"/>
+  </g>
+  <text class="cls-2" transform="translate(147.05 346.87)"><tspan x="0" y="0">G</tspan></text>
+</svg>

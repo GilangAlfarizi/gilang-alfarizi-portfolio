@@ -29,7 +29,7 @@ export function MobileNavMenu() {
 		<div className="md:hidden">
 			<MotionButton
 				variant="glass-outline"
-				className="!px-3 !py-2"
+				className="px-3! py-2!"
 				aria-expanded={open}
 				aria-controls="mobile-nav-panel"
 				aria-label={open ? "Close menu" : "Open menu"}

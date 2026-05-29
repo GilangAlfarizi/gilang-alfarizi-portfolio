@@ -11,7 +11,7 @@ export function HeroSection() {
 
 	return (
 		<motion.section
-			className="flex max-w-3xl flex-col items-center text-center"
+			className="flex max-w-3xl flex-col items-center text-center mt-0 lg:mt-8"
 			initial="hidden"
 			animate="visible"
 			variants={staggerContainer}

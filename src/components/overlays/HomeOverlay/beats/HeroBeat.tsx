@@ -9,7 +9,7 @@ import { ScrollHint } from "../ScrollHint";
 
 export function HeroBeat() {
 	return (
-		<div className="relative flex size-full items-center justify-center px-4 sm:px-6">
+		<div className="relative flex size-full  justify-center px-4 sm:px-6">
 			<HeroSection />
 
 			<div className="pointer-events-none absolute right-4 bottom-1/2 hidden translate-y-1/2 lg:block xl:right-8">
