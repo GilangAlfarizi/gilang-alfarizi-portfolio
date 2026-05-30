@@ -1,7 +1,7 @@
 # Portfolio v2 — Progress & Architecture
 
 > **Living document.** Update this file whenever scope, priorities, or implementation strategy changes.  
-> Last audited: **2026-05-24** (Projects API + scroll scenes live)
+> Last audited: **2026-05-24** (Skills API + Home/Projects responsive pass)
 
 ---
 
@@ -14,7 +14,7 @@
 | GSAP | ⬜ Not installed |
 | Immersive app shell | ✅ Done (`AppShell`, layers, background) |
 | Home landing overlay | ✅ Done (hero, cards, motion) |
-| API layer | ✅ Projects + Certificates |
+| API layer | ✅ Projects + Certificates + Skills |
 | Design tokens (cinematic / glass) | 🟡 Syne display + Inter body; glass utilities |
 
 **Current focus:** Phase 7 About overlay → Phase 8 project detail modal
@@ -46,7 +46,7 @@ Remake the portfolio as **one persistent immersive application** — not a tradi
 | Styling | Tailwind CSS 4 + shadcn (`radix-maia`) | Extend tokens for glass + cinematic spacing |
 | Motion (primary) | `motion` v12 (`import { motion } from "motion/react"`) | Layout, overlays, hover, shared layout |
 | Motion (secondary) | GSAP + ScrollTrigger | Phase 9 — pinned sections, timelines |
-| Icons | lucide-react | Already available |
+| Icons | lucide-react + `simple-icons` (curated registry) | Skills tiles: SVG paths, emerald `currentColor`; Lucide for missing brands (e.g. AWS) |
 | Data | REST fetch | [Portfolio API](https://gilang-alfarizi-portfolio-be.vercel.app/docs) — `VITE_API_BASE_URL` |
 | Typography | Syne (display) + Inter (body) | `@fontsource-variable/syne` + Inter |
 
@@ -245,11 +245,19 @@ Default fallback is set in `src/lib/api/client.ts` if env is omitted.
 
 **Client:** `fetchCertificates()` · `useCertificates(page)` hook
 
-### Skills (optional / future)
+### Skills ✅
 
 | Method | Path | Notes |
 |--------|------|--------|
-| `GET` | `/skill` | `{ data: { id, title, icon, type }[] }` — could replace static `tech-stack.ts` later |
+| `GET` | `/skill` | `{ data: Skill[] }` — `icon` is Simple Icons slug; `type`: `FRONTEND` \| `BACKEND` \| `UI_UX` |
+
+**Item shape:**
+
+```ts
+{ id: number; title: string; icon: string; type: "FRONTEND" | "BACKEND" | "UI_UX" }
+```
+
+**Client:** `fetchSkills()` in `src/lib/api/skills.ts` · `useSkills()` hook · `groupSkillsByType()` for categories + computed strength %
 
 ### Images
 
@@ -274,6 +282,7 @@ Default fallback is set in `src/lib/api/client.ts` if env is omitted.
 - [x] `.env.example` with production API URL
 - [x] `apiGet` + project types + `fetchProjects`
 - [x] `fetchCertificates` + pagination (`page`, `pageSize=9`)
+- [x] `fetchSkills` + `useSkills` for Capabilities beat
 - [ ] `fetchProjectById` for detail modal
 - [ ] Optional: MSW mocks for offline dev
 
@@ -430,8 +439,10 @@ interface NavigationContextValue {
 | `useHomeBeats` — wheel/touch beat index + inner scroll on capabilities | ✅ |
 | Beat transitions (slide up/down) via `AnimatePresence` | ✅ |
 | `BeatIndicator` + mobile dots | ✅ |
-| Capabilities: tech grid by Frontend / UI·UX / Backend | ✅ |
-| Strength profile bar chart (animated) | ✅ |
+| Capabilities: API skills grid (`GET /skill`) by type | ✅ |
+| `SkillTile` hover glow + title tooltip; `SkillIcon` (Simple Icons) | ✅ |
+| Strength profile from category counts (computed %) | ✅ |
+| Home responsive pass — hero safe areas, capabilities scroll, beat gutter | ✅ |
 | Scroll hint on hero beat | ✅ |
 | CTA → `setActiveSection('projects')` | ✅ |
 | Display font — Syne Variable globally | ✅ |
@@ -492,6 +503,7 @@ interface NavigationContextValue {
 | Index label `01 / 05` + dot indicator | ✅ |
 | Section header “Curated Work” / “Digital Constellations” | ✅ |
 | `useScrollCapture` shared with home beats | ✅ |
+| Projects responsive pass — single-col mobile, capped image height | ✅ |
 | Project detail modal (`GET /project/{id}`) | ⬜ |
 
 **UI / motion goals**
@@ -637,9 +649,13 @@ interface CertificatesQuery {
 
 ### Responsive
 
-- [ ] Breakpoints: sm / md / lg for grid and type scale
-- [ ] Touch-friendly nav and pagination
+- [x] Home hero: mobile cards + scroll hint stacking; `pr-10`/`pr-12` beat indicator gutter
+- [x] Home capabilities: `overflow-y-auto` on small screens; 3-col grids on lg+
+- [x] Projects: `grid-cols-1` mobile; `line-clamp` title/description; `max-h-[45vh]` image on lg+
+- [ ] Certificates overlay responsive QA (deferred this pass)
 - [ ] Background `object-position` tuned per breakpoint
+
+**Viewport smoke test (Home + Projects):** 320px · 390px · 768px · 1024px · 1440px — no content under navbar/footer; beat/page indicators do not cover primary copy.
 
 ### Developer experience
 
@@ -671,6 +687,7 @@ interface CertificatesQuery {
 | 2026-05-24 | Responsive nav + home scroll beats + Capabilities & Arsenal |
 | 2026-05-24 | Live API wired; Projects overlay + Syne typography |
 | 2026-05-24 | Phase 6 Certificates — image grid, scroll pagination, API v2 fields |
+| 2026-05-24 | Skills API on Capabilities beat; Simple Icons tiles; computed strength; Home/Projects responsive pass; removed `tech-stack.ts` |
 
 ---
 

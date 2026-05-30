@@ -1,54 +1,116 @@
 import { motion } from "motion/react";
-import { forwardRef } from "react";
+import { forwardRef, useMemo, useState } from "react";
 
-import { TECH_CATEGORIES } from "@/data/tech-stack";
+import { useSkills } from "@/hooks/useSkills";
+import { groupSkillsByType } from "@/lib/skills/groupSkillsByType";
+import type { SkillCategoryGroup } from "@/lib/skills/groupSkillsByType";
 import { fadeUp, staggerContainer } from "@/lib/motion/presets";
 
+import { CapabilitiesErrorState } from "../CapabilitiesErrorState";
+import { CapabilitiesLoadingState } from "../CapabilitiesLoadingState";
+import { CapabilitiesMobileCategories } from "../CapabilitiesMobileCategories";
+import { SkillsCategorySheet } from "../SkillsCategorySheet";
 import { StrengthChart } from "../StrengthChart";
 import { TechCategoryGrid } from "../TechCategoryGrid";
 
 export const CapabilitiesBeat = forwardRef<HTMLDivElement>(
 	function CapabilitiesBeat(_, ref) {
-	return (
-		<div
-			ref={ref}
-			className="size-full overflow-y-auto overflow-x-hidden px-4 pb-6 sm:px-6 lg:overflow-hidden"
-		>
-			<motion.div
-				className="mx-auto flex min-h-full max-w-6xl flex-col justify-center gap-6 py-2 md:grid md:max-h-full md:grid-cols-[1.15fr_0.85fr] md:items-center md:gap-8 lg:gap-10"
-				variants={staggerContainer}
-				initial="hidden"
-				animate="visible"
-			>
-				<div className="space-y-4 md:space-y-5">
-					<motion.div variants={fadeUp} className="text-center md:text-left">
-						<p className="text-[10px] tracking-[0.22em] text-emerald-400 uppercase sm:text-xs">
-							Arsenal
-						</p>
-						<h2 className="mt-2 font-display text-2xl font-bold tracking-[0.06em] text-white uppercase sm:text-3xl lg:text-4xl">
-							Capabilities & Arsenal
-						</h2>
-						<p className="mt-2 max-w-xl text-xs leading-relaxed text-white/65 sm:text-sm">
-							Tools and disciplines I use to ship cinematic interfaces and
-							reliable fullstack systems.
-						</p>
-					</motion.div>
+		const { skills, loading, error, refetch } = useSkills();
+		const categories = useMemo(
+			() => groupSkillsByType(skills),
+			[skills],
+		);
+		const [sheetCategory, setSheetCategory] =
+			useState<SkillCategoryGroup | null>(null);
 
-					<div className="grid gap-4 sm:gap-5 md:grid-cols-1 lg:grid-cols-3">
-						{TECH_CATEGORIES.map((category) => (
-							<TechCategoryGrid
-								key={category.id}
-								category={category}
+		if (loading) {
+			return (
+				<div ref={ref} className="size-full">
+					<CapabilitiesLoadingState />
+				</div>
+			);
+		}
+
+		if (error) {
+			return (
+				<div ref={ref} className="size-full">
+					<CapabilitiesErrorState message={error} onRetry={refetch} />
+				</div>
+			);
+		}
+
+		if (skills.length === 0) {
+			return (
+				<div
+					ref={ref}
+					className="flex size-full items-center justify-center px-6 text-center text-sm text-white/55"
+				>
+					No skills published yet.
+				</div>
+			);
+		}
+
+		return (
+			<>
+				<div
+					ref={ref}
+					className="size-full overflow-y-auto overflow-x-hidden px-4 pr-10 pb-6 sm:px-6 sm:pr-12 md:overflow-hidden"
+				>
+					<motion.div
+						className="mx-auto flex min-h-full w-full max-w-6xl flex-col justify-center gap-5 py-2 md:max-h-full md:grid md:grid-cols-[1.35fr_0.65fr] md:items-stretch md:gap-6 lg:gap-8"
+						variants={staggerContainer}
+						initial="hidden"
+						animate="visible"
+					>
+						<div className="flex min-h-0 flex-col gap-4 md:gap-5">
+							<motion.div
+								variants={fadeUp}
+								className="shrink-0 text-center md:text-left"
+							>
+								<p className="text-[10px] tracking-[0.22em] text-emerald-400 uppercase sm:text-xs">
+									Arsenal
+								</p>
+								<h2 className="mt-2 font-display text-2xl font-bold tracking-[0.06em] text-white uppercase sm:text-3xl lg:text-4xl">
+									Capabilities & Arsenal
+								</h2>
+								<p className="mt-2 max-w-xl text-xs leading-relaxed text-white/65 sm:text-sm">
+									Tools and disciplines I use to ship cinematic
+									interfaces and reliable fullstack systems.
+								</p>
+							</motion.div>
+
+							<CapabilitiesMobileCategories
+								categories={categories}
+								onSelect={setSheetCategory}
 							/>
-						))}
-					</div>
+
+							<div className="hidden flex-col gap-4 md:flex md:gap-5">
+								{categories.map((category) => (
+									<TechCategoryGrid
+										key={category.id}
+										category={category}
+									/>
+								))}
+							</div>
+						</div>
+
+						<motion.div
+							variants={fadeUp}
+							className="shrink-0 md:flex md:min-h-0 md:flex-col"
+						>
+							<StrengthChart
+								categories={categories}
+								className="md:h-full"
+							/>
+						</motion.div>
+					</motion.div>
 				</div>
 
-				<div className="md:pt-4">
-					<StrengthChart />
-				</div>
-			</motion.div>
-		</div>
-	);
-},
+				<SkillsCategorySheet
+					category={sheetCategory}
+					onClose={() => setSheetCategory(null)}
+				/>
+			</>
+		);
+	},
 );

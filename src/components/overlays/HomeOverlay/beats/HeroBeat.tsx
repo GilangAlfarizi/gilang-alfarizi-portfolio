@@ -9,14 +9,14 @@ import { ScrollHint } from "../ScrollHint";
 
 export function HeroBeat() {
 	return (
-		<div className="relative flex size-full  justify-center px-4 sm:px-6">
+		<div className="relative flex size-full min-h-0 justify-center px-4 pr-10 sm:px-6 sm:pr-12">
 			<HeroSection />
 
-			<div className="pointer-events-none absolute right-4 bottom-1/2 hidden translate-y-1/2 lg:block xl:right-8">
+			<div className="pointer-events-none absolute right-4 bottom-1/2 hidden max-w-xs translate-y-1/2 lg:block xl:right-8">
 				<InfoCards />
 			</div>
 
-			<div className="absolute inset-x-4 bottom-16 flex gap-3 lg:hidden">
+			<div className="absolute inset-x-4 bottom-32 flex gap-3 lg:hidden">
 				<MobileCard label="Core Tech" value="React & NestJs" />
 				<MobileCard label="Creative" value="Three.js & GLSL" />
 			</div>

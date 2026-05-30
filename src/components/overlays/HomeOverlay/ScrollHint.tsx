@@ -4,7 +4,7 @@ import { motion } from "motion/react";
 export function ScrollHint() {
 	return (
 		<motion.div
-			className="pointer-events-none absolute inset-x-0 bottom-20 flex flex-col items-center gap-1 md:bottom-16"
+			className="pointer-events-none absolute inset-x-0 bottom-20 flex flex-col items-center gap-1 sm:bottom-12 md:bottom-16"
 			initial={{ opacity: 0, y: 8 }}
 			animate={{ opacity: 1, y: 0 }}
 			transition={{ delay: 1.2, duration: 0.5 }}

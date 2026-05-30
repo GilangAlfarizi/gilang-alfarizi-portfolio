@@ -11,7 +11,7 @@ export function HeroSection() {
 
 	return (
 		<motion.section
-			className="flex max-w-3xl flex-col items-center text-center mt-0 lg:mt-8"
+			className="flex w-full max-w-3xl flex-col items-center px-1 text-center mt-0 lg:mt-6 lg:max-w-2xl xl:max-w-3xl"
 			initial="hidden"
 			animate="visible"
 			variants={staggerContainer}
@@ -22,7 +22,7 @@ export function HeroSection() {
 				Status: Exploratory Phase
 			</motion.p>
 
-			<h1 className="font-display space-y-1 text-4xl leading-[1.05] font-bold tracking-[0.08em] text-white uppercase sm:text-5xl md:text-6xl lg:text-7xl">
+			<h1 className="font-display space-y-1 text-3xl leading-[1.05] font-bold tracking-[0.08em] text-white uppercase sm:text-5xl md:text-6xl lg:text-6xl xl:text-7xl">
 				{HEADLINE_LINES.map((line) => (
 					<motion.span key={line} variants={fadeUp} className="block">
 						{line}
