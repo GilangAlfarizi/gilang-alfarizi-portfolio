@@ -60,7 +60,6 @@ export function HeroSection() {
 				</div>
 			</motion.div>
 
-			<ScrollHint />
 		</motion.section>
 	);
 }

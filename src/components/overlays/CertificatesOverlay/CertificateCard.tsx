@@ -25,7 +25,7 @@ export function CertificateCard({ certificate, index }: CertificateCardProps) {
 			whileHover={{ y: -3, scale: 1.01 }}
 			transition={{ duration: 0.25 }}
 			className="group h-40 lg:h-full">
-			<GlassPanel className="flex h-40 lg:h-full flex-col overflow-hidden rounded-xl border-white/10 p-0">
+			<GlassPanel className="flex h-36 lg:h-full flex-col overflow-hidden rounded-xl border-white/10 p-0">
 				<div className="relative aspect-16/7 overflow-hidden bg-black/40 sm:aspect-video">
 					{" "}
 					{certificate.image ? (

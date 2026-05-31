@@ -13,7 +13,7 @@ export function OverlaySectionHeader({
 }: OverlaySectionHeaderProps) {
 	return (
 		<motion.header
-			className="pointer-events-none shrink-0 px-4 pt-4 text-center sm:px-6"
+			className="pointer-events-none shrink-0 px-4 pt-0 lg:pt-4 text-center sm:px-6"
 			initial="hidden"
 			animate="visible"
 			variants={fadeUp}

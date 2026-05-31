@@ -1,5 +1,6 @@
 import { HeroSection } from "../HeroSection";
 import { InfoCards } from "../InfoCards";
+import { ScrollHint } from "../ScrollHint";
 
 export function HeroBeat() {
 	return (
@@ -9,6 +10,8 @@ export function HeroBeat() {
 			<div className="pointer-events-none absolute right-4 bottom-1/2 hidden max-w-xs translate-y-1/2 lg:block xl:right-8">
 				<InfoCards />
 			</div>
+
+			<ScrollHint />
 		</div>
 	);
 }

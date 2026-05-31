@@ -20,7 +20,7 @@ export function CertificateGridPage({ items, page }: CertificateGridPageProps) {
 			variants={staggerContainer}
 			initial="hidden"
 			animate="visible">
-			<div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 sm:gap-3 lg:grid-cols-3">
+			<div className="grid grid-cols-1  sm:grid-cols-2 sm:gap-3 lg:grid-cols-3">
 				{items.map((certificate, index) =>
 					certificate ? (
 						<CertificateCard

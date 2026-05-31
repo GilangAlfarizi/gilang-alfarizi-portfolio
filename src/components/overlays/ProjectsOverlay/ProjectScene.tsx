@@ -25,7 +25,7 @@ export function ProjectScene({
 }: ProjectSceneProps) {
 	return (
 		<motion.div
-			className="mx-auto flex size-full max-w-6xl min-h-0 flex-col justify-center gap-4 px-4 pb-2 sm:gap-5 sm:px-6 lg:gap-6"
+			className="mx-auto flex size-full max-w-6xl min-h-0 flex-col justify-center gap-4 px-4 pb-2 pt-2 sm:gap-5 sm:px-6 lg:gap-6"
 			variants={staggerContainer}
 			initial="hidden"
 			animate="visible"
@@ -34,7 +34,7 @@ export function ProjectScene({
 				variants={fadeUp}
 				className="grid grid-cols-1 overflow-hidden rounded-2xl border border-white/10 bg-black/20 shadow-[0_16px_48px_rgba(0,0,0,0.45)] backdrop-blur-sm lg:grid-cols-[1.05fr_0.95fr] lg:max-h-[min(72vh,640px)] lg:rounded-3xl"
 			>
-				<div className="relative aspect-16/10 max-h-[38vh] overflow-hidden bg-black/40 sm:max-h-[42vh] lg:aspect-auto lg:max-h-[45vh] lg:min-h-0">
+				<div className="relative aspect-16/10 max-h-[38vh] bg-black/40 sm:max-h-[42vh] lg:aspect-auto lg:max-h-[45vh] lg:min-h-0">
 					{project.coverImageUrl ? (
 						<img
 							src={project.coverImageUrl}
@@ -55,15 +55,15 @@ export function ProjectScene({
 						{formatIndex(index)} / {String(total).padStart(2, "0")} · Project
 					</p>
 
-					<h3 className="font-display mt-3 line-clamp-2 text-xl leading-tight font-bold tracking-[0.04em] text-white uppercase sm:text-2xl lg:text-3xl">
+					<h3 className="font-display mt-1 md:mt-3 line-clamp-2 text-xl leading-tight font-bold tracking-[0.04em] text-white uppercase sm:text-2xl lg:text-3xl">
 						{project.title}
 					</h3>
 
-					<p className="mt-3 line-clamp-4 text-xs leading-relaxed text-white/70 sm:mt-4 sm:text-sm lg:line-clamp-5">
+					<p className="mt-1 md:mt-3 line-clamp-4 text-xs leading-relaxed text-white/70 sm:mt-4 sm:text-sm lg:line-clamp-5">
 						{project.description}
 					</p>
 
-					<div className="mt-5 sm:mt-6">
+					<div className="mt-2 sm:mt-6">
 						<MotionButton
 							variant="glass-outline"
 							className="inline-flex items-center gap-2 px-5! py-2.5! text-xs tracking-[0.14em] uppercase sm:text-sm"
