@@ -1,7 +1,7 @@
 # Portfolio v2 — Progress & Architecture
 
 > **Living document.** Update this file whenever scope, priorities, or implementation strategy changes.  
-> Last audited: **2026-05-24** (Skills API + Home/Projects responsive pass)
+> Last audited: **2026-05-24** (Project detail modal + gallery)
 
 ---
 
@@ -17,7 +17,7 @@
 | API layer | ✅ Projects + Certificates + Skills |
 | Design tokens (cinematic / glass) | 🟡 Syne display + Inter body; glass utilities |
 
-**Current focus:** Phase 7 About overlay → Phase 8 project detail modal
+**Current focus:** Phase 7 About overlay → Phase 8 polish (`layoutId`, focus trap)
 
 ---
 
@@ -208,7 +208,7 @@ Default fallback is set in `src/lib/api/client.ts` if env is omitted.
 | Method | Path | Notes |
 |--------|------|--------|
 | `GET` | `/project` | List — wrapped as `{ data: Project[] }` |
-| `GET` | `/project/{id}` | Detail + `images[]` (case study / modal — Phase 8) |
+| `GET` | `/project/{id}` | Detail — `{ data: ProjectDetail }` with embedded `images[]` |
 | `POST` | `/project` | Admin |
 | `PATCH` | `/project/{id}` | Admin |
 | `DELETE` | `/project/{id}` | Admin |
@@ -219,7 +219,30 @@ Default fallback is set in `src/lib/api/client.ts` if env is omitted.
 { id: number; title: string; description: string; coverImageUrl: string | null }
 ```
 
-**Client:** `fetchProjects()` in `src/lib/api/projects.ts` · `useProjects()` hook
+**Detail shape:**
+
+```ts
+{
+  id: number;
+  title: string;
+  description: string;
+  images: ProjectImage[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+ProjectImage = {
+  id: number;
+  slug: string;
+  image: string;
+  description: string;
+  projectId: number;
+  createdAt: string;
+  updatedAt: string;
+}
+```
+
+**Client:** `fetchProjects()` · `fetchProjectById(id)` · `useProjects()` · `useProjectDetail(projectId)`
 
 ### Certificates ✅
 
@@ -283,7 +306,7 @@ Default fallback is set in `src/lib/api/client.ts` if env is omitted.
 - [x] `apiGet` + project types + `fetchProjects`
 - [x] `fetchCertificates` + pagination (`page`, `pageSize=9`)
 - [x] `fetchSkills` + `useSkills` for Capabilities beat
-- [ ] `fetchProjectById` for detail modal
+- [x] `fetchProjectById` + `useProjectDetail` for detail modal
 - [ ] Optional: MSW mocks for offline dev
 
 ---
@@ -504,7 +527,9 @@ interface NavigationContextValue {
 | Section header “Curated Work” / “Digital Constellations” | ✅ |
 | `useScrollCapture` shared with home beats | ✅ |
 | Projects responsive pass — single-col mobile, capped image height | ✅ |
-| Project detail modal (`GET /project/{id}`) | ⬜ |
+| Project detail modal (`GET /project/{id}`) | ✅ |
+| Detail gallery — overflow strip, click to set hero | ✅ |
+| Scroll lock while detail modal open | ✅ |
 
 **UI / motion goals**
 
@@ -587,9 +612,10 @@ interface CertificatesQuery {
 
 | Task | Status |
 |------|--------|
-| Project detail fullscreen overlay | ⬜ |
+| Project detail fullscreen overlay | ✅ |
+| Clickable image gallery → hero thumbnail | ✅ |
+| Modal backdrop + body scroll lock | ✅ |
 | `layoutId` shared element: thumbnail → hero image | ⬜ |
-| Modal backdrop + body scroll lock | ⬜ |
 | Navbar indicator sync with programmatic section changes | ⬜ |
 | Fine-tune section `direction`-aware variants | ⬜ |
 | Optional: `MotionConfig` transition per section | ⬜ |
@@ -646,6 +672,8 @@ interface CertificatesQuery {
 - [ ] `aria-current` on active nav item
 - [ ] Sufficient color contrast on glass over photography
 - [ ] Skip link optional (single-page app — focus management on section change)
+- [x] Project detail modal: `role="dialog"`, Escape to close
+- [ ] Project detail modal: focus trap
 
 ### Responsive
 
@@ -688,6 +716,7 @@ interface CertificatesQuery {
 | 2026-05-24 | Live API wired; Projects overlay + Syne typography |
 | 2026-05-24 | Phase 6 Certificates — image grid, scroll pagination, API v2 fields |
 | 2026-05-24 | Skills API on Capabilities beat; Simple Icons tiles; computed strength; Home/Projects responsive pass; removed `tech-stack.ts` |
+| 2026-05-24 | Project detail modal — `GET /project/{id}`, hero + overflowing gallery strip, scroll lock |
 
 ---
 

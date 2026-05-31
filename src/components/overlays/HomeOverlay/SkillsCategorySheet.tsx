@@ -74,7 +74,7 @@ export function SkillsCategorySheet({
 									onClick={onClose}
 									aria-label="Close"
 								>
-									<X className="size-4" strokeWidth={1.75} />
+									<X className="size-4 mx-auto" strokeWidth={1.75} />
 								</MotionButton>
 							</div>
 

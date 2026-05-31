@@ -10,13 +10,19 @@ interface ProjectSceneProps {
 	project: Project;
 	index: number;
 	total: number;
+	onViewProject: (projectId: number) => void;
 }
 
 function formatIndex(value: number): string {
 	return String(value + 1).padStart(2, "0");
 }
 
-export function ProjectScene({ project, index, total }: ProjectSceneProps) {
+export function ProjectScene({
+	project,
+	index,
+	total,
+	onViewProject,
+}: ProjectSceneProps) {
 	return (
 		<motion.div
 			className="mx-auto flex size-full max-w-6xl min-h-0 flex-col justify-center gap-4 px-4 pb-2 sm:gap-5 sm:px-6 lg:gap-6"
@@ -61,9 +67,7 @@ export function ProjectScene({ project, index, total }: ProjectSceneProps) {
 						<MotionButton
 							variant="glass-outline"
 							className="inline-flex items-center gap-2 px-5! py-2.5! text-xs tracking-[0.14em] uppercase sm:text-sm"
-							onClick={() => {
-								// Detail modal / case study — Phase 8
-							}}
+							onClick={() => onViewProject(project.id)}
 						>
 							View Project
 							<ArrowRight className="size-4" strokeWidth={1.75} />

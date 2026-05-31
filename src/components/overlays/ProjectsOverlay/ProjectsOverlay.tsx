@@ -1,9 +1,11 @@
 import { AnimatePresence, motion } from "motion/react";
+import { useState } from "react";
 
 import { useProjects } from "@/hooks/useProjects";
 import { useScrollCapture } from "@/hooks/useScrollCapture";
 import { beatSlide } from "@/lib/motion/presets";
 
+import { ProjectDetailModal } from "./ProjectDetailModal";
 import { ProjectIndexIndicator } from "./ProjectIndexIndicator";
 import { ProjectScene } from "./ProjectScene";
 import { ProjectsHeader } from "./ProjectsHeader";
@@ -16,10 +18,17 @@ import {
 export function ProjectsOverlay() {
 	const { projects, loading, error, refetch } = useProjects();
 	const projectCount = projects.length;
+	const [detailProjectId, setDetailProjectId] = useState<number | null>(
+		null,
+	);
 
 	const { activeIndex, direction, containerRef, goToIndex } =
 		useScrollCapture(projectCount, {
-			enabled: !loading && !error && projectCount > 0,
+			enabled:
+				!loading &&
+				!error &&
+				projectCount > 0 &&
+				detailProjectId === null,
 		});
 
 	const activeProject = projects[activeIndex];
@@ -58,6 +67,7 @@ export function ProjectsOverlay() {
 									project={activeProject}
 									index={activeIndex}
 									total={projectCount}
+									onViewProject={setDetailProjectId}
 								/>
 							</motion.div>
 						</AnimatePresence>
@@ -76,6 +86,15 @@ export function ProjectsOverlay() {
 					)}
 				</>
 			)}
+
+			<ProjectDetailModal
+				projectId={detailProjectId}
+				coverImageUrl={
+					projects.find((project) => project.id === detailProjectId)
+						?.coverImageUrl ?? null
+				}
+				onClose={() => setDetailProjectId(null)}
+			/>
 		</div>
 	);
 }

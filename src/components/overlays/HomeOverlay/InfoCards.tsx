@@ -7,13 +7,13 @@ import { easeOut, fadeRight, staggerContainer } from "@/lib/motion/presets";
 const CARDS = [
 	{
 		icon: Code2,
-		label: "Core Tech",
-		value: "React & NestJs",
+		label: "Server Side",
+		value: "APIs & Database",
 	},
 	{
 		icon: Paintbrush,
-		label: "Creative",
-		value: "Three.js & GLSL",
+		label: "Client Side",
+		value: "ReactJs & NextJs",
 	},
 ] as const;
 
@@ -23,15 +23,13 @@ export function InfoCards() {
 			className="pointer-events-auto hidden flex-col gap-3 lg:flex"
 			initial="hidden"
 			animate="visible"
-			variants={staggerContainer}
-		>
+			variants={staggerContainer}>
 			{CARDS.map((card) => (
 				<motion.div
 					key={card.label}
 					variants={fadeRight}
 					whileHover={{ scale: 1.02, y: -2 }}
-					transition={{ duration: 0.25, ease: easeOut }}
-				>
+					transition={{ duration: 0.25, ease: easeOut }}>
 					<GlassPanel className="flex w-52 items-center gap-3 rounded-xl px-4 py-3">
 						<CardContent card={card} />
 					</GlassPanel>
@@ -41,11 +39,7 @@ export function InfoCards() {
 	);
 }
 
-function CardContent({
-	card,
-}: {
-	card: (typeof CARDS)[number];
-}) {
+function CardContent({ card }: { card: (typeof CARDS)[number] }) {
 	const Icon = card.icon;
 
 	return (

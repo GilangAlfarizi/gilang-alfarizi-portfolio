@@ -15,7 +15,7 @@ export function CapabilitiesMobileCategories({
 	onSelect,
 }: CapabilitiesMobileCategoriesProps) {
 	return (
-		<div className="flex flex-col gap-2 md:hidden">
+		<div className="flex flex-col gap-2 lg:hidden">
 			{categories.map((category) => (
 				<motion.div key={category.id} variants={fadeUp}>
 					<MotionButton

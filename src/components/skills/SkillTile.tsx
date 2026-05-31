@@ -23,8 +23,7 @@ export function SkillTile({ skill, className }: SkillTileProps) {
 			whileHover={{ scale: 1.06 }}
 			whileTap={{ scale: 0.98 }}
 			transition={{ duration: 0.2, ease: easeOut }}
-			aria-label={skill.title}
-		>
+			aria-label={skill.title}>
 			<span className="pointer-events-none absolute -top-7 left-1/2 z-20 max-w-36 -translate-x-1/2 whitespace-nowrap rounded border border-white/10 bg-black/90 px-2 py-0.5 text-[10px] font-medium text-white/90 opacity-0 shadow-lg backdrop-blur-sm transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
 				{skill.title}
 			</span>

@@ -34,8 +34,7 @@ export function MobileNavMenu() {
 				aria-expanded={open}
 				aria-controls="mobile-nav-panel"
 				aria-label={open ? "Close menu" : "Open menu"}
-				onClick={() => setOpen((prev) => !prev)}
-			>
+				onClick={() => setOpen((prev) => !prev)}>
 				{open ? <X className="size-4" /> : <Menu className="size-4" />}
 			</MotionButton>
 
@@ -62,13 +61,9 @@ export function MobileNavMenu() {
 								initial={{ y: -12 }}
 								animate={{ y: 0 }}
 								exit={{ y: -8 }}
-								transition={{ duration: 0.3, ease: easeOut }}
-							>
+								transition={{ duration: 0.3, ease: easeOut }}>
 								<GlassPanel className="rounded-2xl p-4">
-									<nav
-										className="flex flex-col gap-1"
-										aria-label="Mobile"
-									>
+									<nav className="flex flex-col gap-1" aria-label="Mobile">
 										{NAV_ITEMS.map((item) => (
 											<button
 												key={item.id}
@@ -79,8 +74,7 @@ export function MobileNavMenu() {
 													activeSection === item.id
 														? "bg-white/10 text-white"
 														: "text-white/65 hover:bg-white/5 hover:text-white",
-												)}
-											>
+												)}>
 												{item.label}
 											</button>
 										))}
@@ -90,9 +84,13 @@ export function MobileNavMenu() {
 										<MotionButton
 											variant="glass"
 											className="w-full justify-center"
-											onClick={() => setOpen(false)}
-										>
-											Connect
+											onClick={() => setOpen(false)}>
+											<a
+												href="https://wa.me/6287888760035"
+												target="_blank"
+												rel="noopener">
+												Contact
+											</a>
 										</MotionButton>
 									</div>
 								</GlassPanel>

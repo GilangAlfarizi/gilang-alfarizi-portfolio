@@ -17,8 +17,7 @@ export function Navbar() {
 			className="fixed inset-x-0 top-0 z-50 flex justify-center px-3 pt-3 sm:px-6 sm:pt-5"
 			initial="hidden"
 			animate="visible"
-			variants={staggerContainer}
-		>
+			variants={staggerContainer}>
 			<motion.div variants={fadeDown} className="w-full max-w-5xl">
 				<GlassPanel className="flex items-center justify-between gap-2 rounded-full px-3 py-2 sm:gap-4 sm:px-6 sm:py-2.5">
 					<a
@@ -27,15 +26,13 @@ export function Navbar() {
 						onClick={(e) => {
 							e.preventDefault();
 							setActiveSection("home");
-						}}
-					>
-						GILANG.DEV
+						}}>
+						GILANG'S
 					</a>
 
 					<nav
 						className="hidden items-center gap-0.5 lg:flex"
-						aria-label="Main"
-					>
+						aria-label="Main">
 						{NAV_ITEMS.map((item) => (
 							<NavLink
 								key={item.id}
@@ -49,8 +46,7 @@ export function Navbar() {
 					{/* Tablet: compact nav */}
 					<nav
 						className="hidden items-center gap-0.5 md:flex lg:hidden"
-						aria-label="Main compact"
-					>
+						aria-label="Main compact">
 						{NAV_ITEMS.map((item) => (
 							<NavLink
 								key={item.id}
@@ -65,9 +61,13 @@ export function Navbar() {
 					<div className="flex items-center gap-2">
 						<MotionButton
 							variant="glass-outline"
-							className="hidden shrink-0 lg:inline-flex"
-						>
-							Connect
+							className="hidden shrink-0 lg:inline-flex">
+							<a
+								href="https://wa.me/6287888760035"
+								target="_blank"
+								rel="noopener">
+								Contact
+							</a>
 						</MotionButton>
 						<MobileNavMenu />
 					</div>
@@ -99,8 +99,7 @@ function NavLink({
 			)}
 			whileHover={{ scale: 1.04 }}
 			whileTap={{ scale: 0.96 }}
-			transition={{ duration: 0.2 }}
-		>
+			transition={{ duration: 0.2 }}>
 			{label}
 			{isActive && (
 				<motion.span

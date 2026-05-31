@@ -17,8 +17,8 @@ export function HeroBeat() {
 			</div>
 
 			<div className="absolute inset-x-4 bottom-32 flex gap-3 lg:hidden">
-				<MobileCard label="Core Tech" value="React & NestJs" />
-				<MobileCard label="Creative" value="Three.js & GLSL" />
+				<MobileCard label="Server Side" value="APIs & Architecture" />
+				<MobileCard label="Client Side" value="ReactJs & NextJs" />
 			</div>
 
 			<ScrollHint />
@@ -32,8 +32,7 @@ function MobileCard({ label, value }: { label: string; value: string }) {
 			className="flex-1"
 			initial="hidden"
 			animate="visible"
-			variants={fadeUp}
-		>
+			variants={fadeUp}>
 			<GlassPanel className="rounded-xl px-3 py-2.5">
 				<p className="text-[9px] tracking-wider text-white/50 uppercase">
 					{label}

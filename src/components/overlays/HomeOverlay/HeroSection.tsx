@@ -4,14 +4,18 @@ import { MotionButton } from "@/components/ui/motion-button";
 import { useNavigation } from "@/hooks/useNavigation";
 import { fadeUp, staggerContainer } from "@/lib/motion/presets";
 
-const HEADLINE_LINES = ["Engineering", "Motion-Driven", "Interfaces"] as const;
+const HEADLINE_LINES = [
+	"Fabricating",
+	"Creative-Complex",
+	"Applications",
+] as const;
 
 export function HeroSection() {
 	const { setActiveSection } = useNavigation();
 
 	return (
 		<motion.section
-			className="flex w-full max-w-3xl flex-col items-center px-1 text-center mt-0 lg:mt-6 lg:max-w-2xl xl:max-w-3xl"
+			className="flex w-full max-w-3xl flex-col items-center px-1 text-center mt-0 lg:mt-6 lg:max-w-4xl xl:max-w-5xl"
 			initial="hidden"
 			animate="visible"
 			variants={staggerContainer}
@@ -33,8 +37,9 @@ export function HeroSection() {
 			<motion.p
 				variants={fadeUp}
 				className="mt-8 max-w-lg text-sm leading-relaxed text-white/75 sm:text-base">
-				Fullstack Developer & Creative Technologist exploring the intersection
-				of design and cinematic web experiences.
+				Fullstack Developer casually cooking high-performance backend
+				architecture, complex logic, sprinkled with cinematic and fresh web
+				design for comfortable experiences.
 			</motion.p>
 
 			<motion.div variants={fadeUp} className="mt-10">
@@ -42,7 +47,7 @@ export function HeroSection() {
 					variant="glass"
 					className="px-8 py-3 text-xs tracking-[0.2em] uppercase sm:text-sm"
 					onClick={() => setActiveSection("projects")}>
-					Explore My World
+					Explore My Collection
 				</MotionButton>
 			</motion.div>
 		</motion.section>
