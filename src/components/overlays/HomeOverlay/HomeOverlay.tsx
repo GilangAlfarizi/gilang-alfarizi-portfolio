@@ -34,23 +34,6 @@ export function HomeOverlay() {
 				onSelect={goToBeat}
 			/>
 
-			{/* Mobile beat dots */}
-			<div className="pointer-events-auto absolute inset-x-0 bottom-14 z-20 flex justify-center gap-2 md:hidden">
-				{Array.from({ length: HOME_BEAT_COUNT }, (_, index) => (
-					<button
-						key={index}
-						type="button"
-						aria-label={`Section ${index + 1}`}
-						onClick={() => goToBeat(index)}
-						className={
-							beatIndex === index
-								? "size-2 rounded-full bg-emerald-400"
-								: "size-1.5 rounded-full bg-white/35"
-						}
-					/>
-				))}
-			</div>
-
 			<AnimatePresence mode="wait" custom={direction}>
 				{beatIndex === 0 ? (
 					<motion.div

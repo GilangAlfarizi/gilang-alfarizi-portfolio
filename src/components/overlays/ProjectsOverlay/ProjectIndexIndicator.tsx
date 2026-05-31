@@ -17,7 +17,6 @@ export function ProjectIndexIndicator({
 
 	return (
 		<div
-			// className="pointer-events-auto flex justify-center gap-2 pb-1"
 			className="pointer-events-auto fixed right-3 top-1/2 z-20 flex -translate-y-1/2 flex-col gap-2 sm:right-4"
 			aria-label="Project navigation">
 			{Array.from({ length: total }, (_, index) => (

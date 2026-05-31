@@ -2,7 +2,9 @@ import { motion } from "motion/react";
 
 import { MotionButton } from "@/components/ui/motion-button";
 import { useNavigation } from "@/hooks/useNavigation";
-import { fadeUp, staggerContainer } from "@/lib/motion/presets";
+import { fadeIn, fadeUp, staggerContainer } from "@/lib/motion/presets";
+import { GlassPanel } from "@/components/ui/glass-panel";
+import { ScrollHint } from "./ScrollHint";
 
 const HEADLINE_LINES = [
 	"Fabricating",
@@ -50,6 +52,34 @@ export function HeroSection() {
 					Explore My Collection
 				</MotionButton>
 			</motion.div>
+
+			<motion.div variants={fadeIn} className="mt-5">
+				<div className=" inset-x-4 bottom-24 flex justify-center gap-3 lg:hidden">
+					<MobileCard label="Server Side" value="APIs & Architecture" />
+					<MobileCard label="Client Side" value="ReactJs & NextJs" />
+				</div>
+			</motion.div>
+
+			<ScrollHint />
 		</motion.section>
+	);
+}
+
+function MobileCard({ label, value }: { label: string; value: string }) {
+	return (
+		<motion.div
+			className=""
+			initial="hidden"
+			animate="visible"
+			variants={fadeUp}>
+			<GlassPanel className="rounded-xl px-3 py-2.5 max-w-52">
+				<p className="text-[9px] tracking-wider text-white/50 uppercase">
+					{label}
+				</p>
+				<p className="mt-0.5 truncate text-xs font-semibold text-white">
+					{value}
+				</p>
+			</GlassPanel>
+		</motion.div>
 	);
 }

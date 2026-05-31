@@ -27,7 +27,7 @@ export function StrengthChart({ categories, className }: StrengthChartProps) {
 				</p>
 			</motion.div>
 
-			<GlassPanel className="flex min-h-48 flex-1 flex-col rounded-xl p-4 sm:min-h-56 sm:p-5 md:min-h-[min(52vh,420px)] md:rounded-2xl">
+			<GlassPanel className="flex  flex-1 flex-col rounded-xl p-4 sm:min-h-56 sm:p-5 md:min-h-[min(52vh,420px)] md:rounded-2xl">
 				{/* Mobile: compact horizontal bars */}
 				<div className="space-y-3 md:hidden">
 					{categories.map((category) => (
@@ -75,14 +75,12 @@ export function StrengthChart({ categories, className }: StrengthChartProps) {
 								12,
 								Math.round((category.strength / maxStrength) * 100),
 							);
-							console.log(barHeight);
 
 							return (
 								<motion.div
 									key={category.id}
 									variants={fadeUp}
 									className="flex min-w-0 flex-1 flex-col items-center gap-2	">
-									
 									<div className="relative h-96 w-12">
 										<motion.div
 											className={cn(
